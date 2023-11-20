@@ -32,6 +32,7 @@ dbConnection()
 /* ------------------------------------------------------- */
 // Middlewares:
     app.use(express.json()) // gelen json veriyi objeye çevirir req.body ile kullanılır
+    app.use
     app.use(require('./src/middlewares/logger')) // loglama işlemi için
     app.use(require('./src/middlewares/findSearchSortPage')) 
 

@@ -1,7 +1,6 @@
 "use strict"
-/* -------------------------------------------------------
-    NODEJS EXPRESS | CLARUSWAY FullStack Team
-------------------------------------------------------- */
+
+
 const { mongoose } = require('../configs/dbConnection')
 /* ------------------------------------------------------- */
 // Order Model:
@@ -14,9 +13,9 @@ const OrderSchema = new mongoose.Schema({
         required: true,
     },
 
-    pizzaId: {
+    fastfoodId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Pizza',
+        ref: 'FastFood',
         required: true,
     },
 
@@ -28,11 +27,13 @@ const OrderSchema = new mongoose.Schema({
 
     quantity: {
         type: Number,
+        default: 1,
         required: true,
     },
 
     price: {
         type: Number,
+        default: 0,
         required: true,
     },
 

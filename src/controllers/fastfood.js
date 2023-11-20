@@ -20,7 +20,7 @@ module.exports = {
             `
         */
 
-        const data = await res.getModelList(FastFood)
+        const data = await res.getModelList(FastFood, {}, 'toppings')
 
         res.status(200).send({
             error: false,
@@ -49,7 +49,7 @@ module.exports = {
             #swagger.summary = "Get Single FastFood"
         */
 
-        const data = await FastFood.findOne({ _id: req.params.id })
+        const data = await FastFood.findOne({ _id: req.params.id }).populate('toppings')
 
         res.status(200).send({
             error: false,
@@ -87,5 +87,50 @@ module.exports = {
             data
         })
 
+    },
+     // Add toppings to FastFood.toppings:
+     pushToppings: async (req, res) => {
+        /*
+            #swagger.tags = ["FastFood"]
+            #swagger.summary = "Add Toppings to Pizza"
+        */
+
+        const toppings = req.body?.toppings // ObjectId or [ ObjectIds ]
+
+        // const data = await FastFood.findOne({ _id: req.params.id })
+        // data.toppings.push(toppings)
+        // await data.save()
+        const data = await FastFood.updateOne({ _id: req.params.id }, { $push: { toppings: toppings } })
+        const newData = await FastFood.findOne({ _id: req.params.id }).populate('toppings')
+
+        res.status(202).send({
+            error: false,
+            data,
+            toppingsCount: newData.toppings.length,
+            new: newData
+        })
+    },
+
+    // Remove toppings from FastFood.toppings:
+    pullToppings: async (req, res) => {
+        /*
+            #swagger.tags = ["FastFood"]
+            #swagger.summary = "Remove Toppings from FastFood"
+        */
+
+        const toppings = req.body?.toppings // ObjectId
+
+        // const data = await FastFood.findOne({ _id: req.params.id })
+        // data.toppings.pull(toppings)
+        // await data.save()
+        const data = await FastFood.updateOne({ _id: req.params.id }, { $pull: { toppings: toppings } })
+        const newData = await FastFood.findOne({ _id: req.params.id }).populate('toppings')
+
+        res.status(202).send({
+            error: false,
+            data,
+            toppingsCount: newData.toppings.length,
+            new: newData
+        })
     },
 }

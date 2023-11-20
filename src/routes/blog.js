@@ -3,10 +3,11 @@
 const router = require('express').Router()
 /* ------------------------------------------------------- */
 // routes/FastFood:
-
+const permissions = require('../middlewares/permissions')
 const Blog = require('../controllers/blog')
 
 // URL: /Blogs
+router.use(permissions.isAdmin)
 
 router.route('/')
     .get(Blog.list)
